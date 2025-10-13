@@ -1,9 +1,0 @@
-django
-pillow
-opencv-python
-numpy
-easyocr
-# torch
-# torchvision
-# transformers
-# google-cloud-vision
