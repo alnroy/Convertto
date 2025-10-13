@@ -1,0 +1,189 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload | Handwriting to Text</title>
+  <link rel="stylesheet" href="{% static 'css/main_page.css' %}">
+</head>
+<body>
+  <header>
+    
+
+  <!-- overlay used when mobile menu is open -->
+  <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav class="site-nav">
+    <!-- <a href="#" class="logo"> -->
+      <!-- <img src="{% static 'images/logo.png' %}" alt="Logo"> -->
+      <span class="brand">HandwritingApp</span>
+    </a>
+
+    <!-- CSS hamburger button (no external icon required) -->
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'workspace_page' %}">Workspace</a></li>
+    </ul>
+  </nav><br>
+        <h3>Upload Handwritten Notes</h3>
+        <p>Just take a photo of your handwritten notes and upload it to our converter.</p>
+  <main class="container">
+  <div class="layout">
+    <!-- Left side animations + illustration -->
+    <div class="left-side">
+      <div class="circle"></div>
+      <div class="floating-box"></div>
+      <div class="wave"></div>
+     <!-- <img src="https://www.svgrepo.com/show/488020/upload.svg" 
+     alt="🙍🏻‍♂️📔➡️📄"  
+     class="illustration fade-in"> -->
+     
+    </div>
+
+    <!-- Right side upload box -->
+    <section class="upload-box slide-up">
+      <form id="uploadForm">
+  {% csrf_token %}
+  
+  <div class="file-upload">
+    <div class="icon">☁️⬆️
+      <label for="fileInput" class="file-label"></label>
+    </div>
+    <span id="fileName">📂 Choose a file (PNG, JPG, JPEG, or PDF)</span>
+    <input type="file" name="image" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" required>
+  </div>
+    <script src="{% static 'js/upload.js' %}"></script>
+
+    <!-- Preview Section -->
+<div class="preview-box" id="previewBox" style="display:none;">
+  <h3>📑 File Preview</h3>
+  <img id="previewImage" style="max-width: 200px; display:none;" />
+  <iframe id="previewPDF" style="width:200px; height:200px; display:none;" frameborder="0"></iframe>
+</div>
+
+  <script src="{% static 'js/preview.js' %}"></script>
+        <br><br>
+        <!-- {% if error %}
+<div class="error-box">
+  ⚠️ {{ error }}
+</div>
+{% endif %} -->
+
+        <button type="button" id="convertBtn">Convert</button>
+
+
+        <div id="spinner" class="spinner" style="display:none;"></div>
+
+      </form>
+    </section>
+  </div>
+
+
+<section class="result-box fade-in" style="display:none;">
+  <h2>📝 Extracted Text</h2>
+  <textarea id="outputText"></textarea>
+
+  <div class="action-buttons">
+    <button type="button" class="cool" onclick="copyText()">📋 Copy</button>
+    <button type="button" class="cool" onclick="downloadTXT()">📄 Save as TXT</button>
+    <button type="button" class="cool" onclick="downloadPDF()">📑 Save as PDF</button>
+    <form method="post" id="editForm" action="{% url 'workspace' %}">
+    {% csrf_token %}
+    <input type="hidden" name="text" id="hiddenText">
+    <button type="submit">Edit in Workspace</button>
+    </form>
+  </div>
+
+  <p><strong>Detected Languages:</strong> <span id="languages"></span></p>
+</section>
+
+
+
+</main>
+
+
+  <!-- Footer (stays at bottom) -->
+  <footer>
+    <div class="socials">
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <p>&copy; 2025 HandwritingApp. All rights reserved.</p>
+    <p><a href="#" class="small-link">Privacy Policy</a> | <a href="#" class="small-link">Terms of Use</a></p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const form = document.getElementById('uploadForm');
+  const fileInput = document.getElementById('fileInput');
+  const outputBox = document.getElementById('outputText');
+  const resultSection = document.querySelector('.result-box');
+  const spinner = document.getElementById('spinner');
+  const convertBtn = document.getElementById('convertBtn');
+  
+  function showSpinner() {
+    spinner.style.display = 'inline-block';
+  }
+
+  function submitForm() {
+    if (!fileInput.files.length) return alert("Please select a file!");
+
+    showSpinner();
+
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    fetch('/api/convert/', {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken
+      },
+      body: formData
+    })
+    .then(response => response.json().then(data => ({status: response.status, body: data})))
+    .then(({status, body}) => {
+      if (status === 200) {
+        resultSection.style.display = 'block';
+        outputBox.value = body.text;
+        document.getElementById('languages').innerText = body.languages.join(', ');
+      } else {
+        alert(body.error || 'Something went wrong.');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error connecting to the server.');
+    })
+    .finally(() => {
+      spinner.style.display = 'none';
+    });
+  }
+
+  // Connect button to function
+  convertBtn.addEventListener('click', submitForm);
+
+});
+</script>
+
+
+<!-- Include jsPDF library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</script>
+
+
+
+</body>
+</html>

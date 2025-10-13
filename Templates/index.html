@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- important for responsiveness -->
+  <title>Handwriting App</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- keep fontawesome if you want icons elsewhere, but hamburger doesn't rely on it -->
+  <script src="https://kit.fontawesome.com/a2d9d6a64f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- overlay used when mobile menu is open -->
+  <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
+
+  <!-- Navbar -->
+  <nav class="site-nav">
+    <a href="#" class="logo">
+      <img src="{% static 'images/logo.png' %}" alt="Logo">
+      <span class="brand">HandwritingApp</span>
+    </a>
+
+    <!-- CSS hamburger button (no external icon required) -->
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="{% url 'upload' %}">Converter</a></li>
+      <li><a href="{% url 'workspace_page' %}">workspace</a></li>
+    </ul>
+  </nav>
+
+  <!-- main content (flex:1 to push footer down) -->
+  <main class="site-main">
+    <header class="hero" data-aos="fade-down">
+      <h1>Handwriting to Text Converter</h1>
+      <p>Convert your handwritten notes into clean digital text with ease. Fast, accurate, and simple to use.</p>
+    </header>
+
+    <section class="features">
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-pen-fancy"></i>
+        <h3>Upload Handwritten Notes</h3>
+        <p>Just take a photo of your handwritten notes and upload it to our converter.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-magic"></i>
+        <h3>AI Powered Conversion</h3>
+        <p>Our OCR engine reads your handwriting and converts it into editable text instantly.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-language"></i>
+        <h3>English Supported</h3>
+        <p>Currently supports English handwriting. More languages coming very soon!</p>
+      </div>
+    </section>
+
+    <section class="animation-section" data-aos="fade-up">
+      <h2>Watch the Magic Happen</h2>
+
+      <!-- animation container: fixed height avoids layout jumps on small screens -->
+      <div class="animation-container" style="margin-top:20px;">
+        <div class="handwritten">This is my handwritten text</div>
+        <div class="typed">This is my handwritten text</div>
+      </div>
+
+      <div class="notice">Currently available only in English — More languages coming soon!</div>
+      <a href="{% url 'upload' %}" class="btn-convert">Try the Converter</a>
+      <a href="{% url 'workspace_page' %}" class="btn-convert">Try our Workspace</a>
+    </section>
+  </main>
+
+  <!-- Footer (stays at bottom) -->
+  <footer>
+    <div class="socials">
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <p>&copy; 2025 HandwritingApp. All rights reserved.</p>
+    <p><a href="#" class="small-link">Privacy Policy</a> | <a href="#" class="small-link">Terms of Use</a></p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+AOS.init({ duration: 1000, once: true });
+
+const toggle = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+
+toggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
+
+// close menu when link clicked
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>

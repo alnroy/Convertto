@@ -1,0 +1,208 @@
+:root {
+  --bg1: #d9e4ff;
+  --bg2: #f4f6ff;
+  --primary: #1e2a55;
+  --accent: #3c57e5;
+  --glass: rgba(255,255,255,0.4);
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ---------- Workspace Root ---------- */
+.workspace-root {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 25px 30px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.workspace-root h1 {
+  text-align: center;
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+/* ---------- Toolbar ---------- */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.toolbar .group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.45);
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.toolbar button,
+.toolbar select {
+  border: none;
+  background: var(--accent);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.25s;
+}
+
+.toolbar button:hover,
+.toolbar select:hover {
+  background: #2a3ac7;
+}
+
+.toolbar button#boldBtn,
+.toolbar button#italicBtn,
+.toolbar button#underlineBtn {
+  width: 36px;
+  height: 36px;
+  font-weight: bold;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar select {
+  background: #f5f5ff;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* ---------- Quill Editor ---------- */
+#editor-container {
+  min-height: 300px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* Quill focus style */
+.ql-container.ql-snow:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(60, 87, 229, 0.2);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .workspace-root {
+    margin: 20px;
+    padding: 20px;
+  }
+  .toolbar {
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+/* ---------- Custom Quill Toolbar ---------- */
+.ql-toolbar.ql-snow {
+  border: none;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px);
+  padding: 10px 15px;
+  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+
+.ql-toolbar button,
+.ql-toolbar select.ql-font,
+.ql-toolbar select.ql-size {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ql-toolbar button:hover {
+  background: #2a3ac7;
+}
+
+.ql-toolbar button.ql-active {
+  background: var(--primary);
+}
+
+/* Tooltip styling */
+.toolbar button[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background: #333;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  top: -32px;
+  white-space: nowrap;
+}
+
+/* Spinner */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.btn-loading::after {
+  content: "";
+  border: 3px solid #fff;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) translateY(-50%); }
+  100% { transform: rotate(360deg) translateY(-50%); }
+}
+#editor-container {
+  background: white;
+  display: flex;
+  
+  padding: 2cm;
+  min-height: 29.7cm; /* A4 height */
+  width: 21cm;         /* A4 width */
+  margin: 20px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+body {
+  background: #f0f2f8;
+}
+
+#pageSize {
+  padding: 5px;
+  border-radius: 6px;
+}
