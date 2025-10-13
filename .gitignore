@@ -1,2 +1,16 @@
 vision_key.json 
 vision_key.json 
+# Sensitive files
+*.json
+*.env
+*.key
+*.pem
+credentials/
+secrets/
+
+# Flutter / Dart
+build/
+.dart_tool/
+.idea/
+.vscode/
+pubspec.lock
