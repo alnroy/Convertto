@@ -21,11 +21,11 @@ It features an intelligent **inbuilt text editor** that allows users to **transl
 | Layer | Technologies Used |
 |-------|--------------------|
 | **Frontend** | HTML5, CSS3, JavaScript (ES6+), Quill.js / TinyMCE (Editor) |
-| **Backend** | Python (Flask / FastAPI) |
+| **Backend** | Python (Django / RestAPI) |
 | **APIs** | Google Vision API, Google Translate API |
 | **Libraries** | `requests`, `google-cloud-vision`, `googletrans`, `gTTS` |
 | **Utilities** | JSON, AJAX, Fetch API, FileReader |
-| **Deployment** | GitHub Pages / Flask Server |
+| **Deployment** | GitHub Pages / Django Server |
 
 ---
 
